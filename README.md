@@ -4,6 +4,12 @@ Proyecto web desarrollado con React para un atelier de moda circular, arreglos d
 
 La aplicación está organizada por componentes y utiliza Vite como entorno de desarrollo.
 
+## Componentes principales
+
+- Navbar: muestra la marca del atelier, categorías de productos y el acceso al carrito.
+- CartWidget: muestra un ícono de carrito con una cantidad fija de productos.
+- ItemListContainer: recibe un mensaje de bienvenida mediante props y lo muestra en la sección principal.
+
 ## Tecnologías
 
 - React
