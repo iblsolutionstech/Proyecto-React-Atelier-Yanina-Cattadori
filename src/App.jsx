@@ -1,10 +1,12 @@
-import BrandIntro from './components/BrandIntro.jsx'
+import ItemListContainer from './components/ItemListContainer.jsx'
+import Navbar from './components/Navbar.jsx'
 
 function App() {
   return (
-    <main className="store-front">
-      <BrandIntro />
-    </main>
+    <>
+      <Navbar />
+      <ItemListContainer greeting="Bienvenidos a YaninaCattadori" />
+    </>
   )
 }
 
