@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Falda reciclada</title>
+  <desc id="desc">Ilustracion simple de una falda reciclada con piezas textiles.</desc>
+  <rect width="640" height="480" fill="#fffaf4"/>
+  <path d="M238 92h164l22 72H216z" fill="#18211d"/>
+  <path d="M216 164h208l70 228H146z" fill="#964a50"/>
+  <path d="M216 164h88l-52 228H146z" fill="#d7a25b"/>
+  <path d="M336 164h88l70 228H374z" fill="#3e7962"/>
+  <path d="M264 198c36 24 72 24 108 0M238 276c54 34 108 34 164 0" fill="none" stroke="#fffaf4" stroke-width="10" stroke-linecap="round"/>
+</svg>
