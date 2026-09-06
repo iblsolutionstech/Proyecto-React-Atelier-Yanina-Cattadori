@@ -8,7 +8,13 @@ La aplicación está organizada por componentes y utiliza Vite como entorno de d
 
 - Navbar: muestra la marca del atelier, categorías de productos y el acceso al carrito.
 - CartWidget: muestra un ícono de carrito con una cantidad fija de productos.
-- ItemListContainer: recibe un mensaje de bienvenida mediante props y lo muestra en la sección principal.
+- ItemListContainer: recibe un mensaje de bienvenida mediante props, obtiene productos de forma asíncrona y guarda el resultado en estado.
+- ItemList: recibe los productos por props y los recorre con map para renderizar el listado.
+- Item: muestra la información visual de cada producto en una card.
+
+## Simulación de datos
+
+La carga de productos se simula en `src/mock/asyncMock.js` con una función `getProducts` que devuelve una Promise. Esa Promise usa `setTimeout` para resolver después de 2 segundos y entregar un array de productos con id, name, price, category, img, stock y description.
 
 ## Tecnologías
 
