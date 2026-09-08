@@ -5,19 +5,21 @@ const categories = ['Arreglos', 'Transformaciones', 'Prendas recicladas', 'Acces
 function Navbar() {
   return (
     <header className="navbar">
-      <a className="brand" href="/" aria-label="YaninaCattadori">
-        YaninaCattadori
-      </a>
+      <div className="navbar-content">
+        <a className="brand" href="/" aria-label="YaninaCattadori">
+          YaninaCattadori
+        </a>
 
-      <nav className="category-nav" aria-label="Categorias de productos">
-        {categories.map((category) => (
-          <a href={`#${category.toLowerCase().replaceAll(' ', '-')}`} key={category}>
-            {category}
-          </a>
-        ))}
-      </nav>
+        <nav className="category-nav" aria-label="Categorias de productos">
+          {categories.map((category) => (
+            <a href={`#${category.toLowerCase().replaceAll(' ', '-')}`} key={category}>
+              {category}
+            </a>
+          ))}
+        </nav>
 
-      <CartWidget />
+        <CartWidget />
+      </div>
     </header>
   )
 }
