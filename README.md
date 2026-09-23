@@ -10,11 +10,16 @@ La aplicación está organizada por componentes y utiliza Vite como entorno de d
 - CartWidget: muestra un ícono de carrito con una cantidad fija de productos.
 - ItemListContainer: recibe un mensaje de bienvenida mediante props, obtiene productos de forma asíncrona y guarda el resultado en estado.
 - ItemList: recibe los productos por props y los recorre con map para renderizar el listado.
-- Item: muestra la información visual de cada producto en una card.
+- Item: muestra la información resumida de cada producto en una card.
+- ItemDetailContainer: obtiene un producto por su identificador y administra los estados de carga y error.
+- ItemDetail: presenta la información completa del producto seleccionado.
+- ItemCount: controla la cantidad elegida sin superar el stock disponible ni disminuir por debajo de cero.
 
 ## Simulación de datos
 
 La carga de productos se simula en `src/mock/asyncMock.js` con una función `getProducts` que devuelve una Promise. Esa Promise usa `setTimeout` para resolver después de 2 segundos y entregar un array de productos con id, name, price, category, img, stock y description.
+
+La función `getProductById`, ubicada en `src/services/getProductById.js`, recibe un identificador, busca el producto correspondiente en el mismo catálogo y devuelve una Promise. La vista de detalle utiliza temporalmente un identificador definido en `App.jsx`; más adelante podrá reemplazarse por el valor de una ruta dinámica.
 
 ## Tecnologías
 
