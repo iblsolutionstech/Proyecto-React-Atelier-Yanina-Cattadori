@@ -52,3 +52,13 @@ Luego abrir en el navegador la dirección local indicada por Vite.
 ## Objetivo
 
 Continuar desarrollando una experiencia simple y clara para presentar productos y servicios del atelier, incorporando nuevas secciones y funcionalidades a medida que avance el proyecto.
+
+## Créditos de imágenes
+
+Las fotografías utilizadas pertenecen a Wikimedia Commons:
+
+- [Remiendo visible](https://commons.wikimedia.org/wiki/File:Visibly_mended_pair_of_jeans.jpg): Lisenka92, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Prenda transformada](https://commons.wikimedia.org/wiki/File:%D7%9E%D7%99%D7%97%D7%96%D7%95%D7%A8_%D7%9E%D7%A9%D7%91%D7%99%D7%97_%D7%9C%D7%91%D7%92%D7%93%D7%99%D7%9D_%D7%99%D7%A9%D7%A0%D7%99%D7%9D_%D7%95%D7%9B%D7%9E%D7%94_%D7%A9%D7%90%D7%A8%D7%99%D7%95%D7%AA_%D7%91%D7%93_%D7%99%D7%A6%D7%A8%D7%95_%D7%A9%D7%9E%D7%9C%D7%94_%D7%97%D7%93%D7%A9%D7%94.jpg): Mirjammarion, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Bolso textil](https://commons.wikimedia.org/wiki/File:016Aa._Cosmetic_bag.jpg): GAlexandrova, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Prenda patchwork](https://commons.wikimedia.org/wiki/File:Cotton_patchwork_suit_by_Alexander_McQueen,_2004_02.jpg): Rhode Island School of Design Museum of Art, licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+- [Trabajo de sastrería](https://commons.wikimedia.org/wiki/File:Tailor_sewing_machine.jpg): Sajid213, licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).

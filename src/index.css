@@ -187,8 +187,8 @@ p {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: #f7f4ee;
+  object-fit: contain;
+  background: #f1eee8;
 }
 
 .product-info {
@@ -295,7 +295,8 @@ p {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f1eee8;
 }
 
 .product-detail-info h2 {
