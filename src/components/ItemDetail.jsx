@@ -1,4 +1,5 @@
 import ItemCount from './ItemCount.jsx'
+import PropTypes from 'prop-types'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -35,6 +36,19 @@ function ItemDetail({ product }) {
       </div>
     </article>
   )
+}
+
+ItemDetail.propTypes = {
+  product: PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    details: PropTypes.string.isRequired,
+    stock: PropTypes.number.isRequired,
+    estimatedTime: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default ItemDetail

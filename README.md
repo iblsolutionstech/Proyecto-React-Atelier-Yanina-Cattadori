@@ -15,6 +15,10 @@ La aplicación está organizada por componentes y utiliza Vite como entorno de d
 - ItemDetail: presenta la información completa del producto seleccionado.
 - ItemCount: controla la cantidad elegida sin superar el stock disponible ni disminuir por debajo de cero.
 
+## Validaciones y pruebas
+
+Los componentes que reciben props validan los datos esperados mediante PropTypes. Se incorporaron pruebas automatizadas para `getProductById`, que verifican la búsqueda dinámica de productos y la respuesta ante un identificador inexistente.
+
 ## Simulación de datos
 
 La carga de productos se simula en `src/mock/asyncMock.js` con una función `getProducts` que devuelve una Promise. Esa Promise usa `setTimeout` para resolver después de 2 segundos y entregar un array de productos con id, name, price, category, img, stock y description.
@@ -48,6 +52,12 @@ npm run dev
 ```
 
 Luego abrir en el navegador la dirección local indicada por Vite.
+
+Para ejecutar las pruebas:
+
+```bash
+npm test
+```
 
 ## Objetivo
 

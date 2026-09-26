@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { getProducts } from '../mock/asyncMock.js'
 import ItemList from './ItemList.jsx'
 
@@ -32,6 +33,10 @@ function ItemListContainer({ greeting }) {
       </section>
     </main>
   )
+}
+
+ItemListContainer.propTypes = {
+  greeting: PropTypes.string.isRequired,
 }
 
 export default ItemListContainer

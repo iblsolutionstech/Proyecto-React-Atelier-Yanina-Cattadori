@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 function ItemCount({ stock }) {
   const [quantity, setQuantity] = useState(0)
@@ -26,6 +27,10 @@ function ItemCount({ stock }) {
       <small>Disponible: {stock}</small>
     </div>
   )
+}
+
+ItemCount.propTypes = {
+  stock: PropTypes.number.isRequired,
 }
 
 export default ItemCount

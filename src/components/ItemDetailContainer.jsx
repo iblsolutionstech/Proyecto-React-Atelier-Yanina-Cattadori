@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { getProductById } from '../services/getProductById.js'
 import ItemDetail from './ItemDetail.jsx'
 
@@ -53,6 +54,10 @@ function ItemDetailContainer({ productId }) {
       <ItemDetail product={product} />
     </section>
   )
+}
+
+ItemDetailContainer.propTypes = {
+  productId: PropTypes.string.isRequired,
 }
 
 export default ItemDetailContainer
