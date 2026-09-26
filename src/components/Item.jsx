@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
@@ -17,6 +19,16 @@ function Item({ product }) {
       </div>
     </article>
   )
+}
+
+Item.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    img: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default Item
