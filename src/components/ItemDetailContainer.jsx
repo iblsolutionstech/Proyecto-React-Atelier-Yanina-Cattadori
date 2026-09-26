@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { Link, useParams } from 'react-router-dom'
 import { getProductById } from '../services/getProductById.js'
 import ItemDetail from './ItemDetail.jsx'
 
-function ItemDetailContainer({ productId }) {
+function ItemDetailContainer() {
+  const { itemId } = useParams()
   const [product, setProduct] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -15,7 +16,7 @@ function ItemDetailContainer({ productId }) {
     setError('')
     setIsLoading(true)
 
-    getProductById(productId)
+    getProductById(itemId)
       .then((selectedProduct) => {
         if (isActive) {
           setProduct(selectedProduct)
@@ -35,14 +36,19 @@ function ItemDetailContainer({ productId }) {
     return () => {
       isActive = false
     }
-  }, [productId])
+  }, [itemId])
 
   if (isLoading) {
     return <p className="detail-status">Cargando detalle del producto...</p>
   }
 
   if (error) {
-    return <p className="detail-status detail-status-error">{error}</p>
+    return (
+      <section className="detail-status detail-status-error">
+        <p>{error}</p>
+        <Link to="/">Volver al catalogo</Link>
+      </section>
+    )
   }
 
   return (
@@ -54,10 +60,6 @@ function ItemDetailContainer({ productId }) {
       <ItemDetail product={product} />
     </section>
   )
-}
-
-ItemDetailContainer.propTypes = {
-  productId: PropTypes.string.isRequired,
 }
 
 export default ItemDetailContainer
