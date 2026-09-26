@@ -14,6 +14,19 @@ La aplicación está organizada por componentes y utiliza Vite como entorno de d
 - ItemDetailContainer: obtiene un producto por su identificador y administra los estados de carga y error.
 - ItemDetail: presenta la información completa del producto seleccionado.
 - ItemCount: controla la cantidad elegida sin superar el stock disponible ni disminuir por debajo de cero.
+- Layout: mantiene visibles la navegacion y el pie de pagina en todas las rutas.
+- NotFound: informa cuando la direccion solicitada no existe.
+
+## Navegacion
+
+La aplicacion incorpora React Router para navegar sin recargar la pagina. Las rutas disponibles son:
+
+- `/`: catalogo completo.
+- `/category/:categoryId`: productos filtrados por categoria.
+- `/item/:itemId`: detalle dinamico de cada producto.
+- `*`: pagina 404 para direcciones inexistentes.
+
+Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles.
 
 ## Validaciones y pruebas
 
@@ -28,6 +41,7 @@ La función `getProductById`, ubicada en `src/services/getProductById.js`, recib
 ## Tecnologías
 
 - React
+- React Router DOM
 - JavaScript
 - Vite
 - HTML

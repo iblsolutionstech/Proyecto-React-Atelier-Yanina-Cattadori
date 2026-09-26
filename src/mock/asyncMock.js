@@ -56,6 +56,13 @@ export const products = [
   },
 ]
 
+export const categories = [
+  { id: 'arreglos', name: 'Arreglos' },
+  { id: 'transformaciones', name: 'Transformaciones' },
+  { id: 'prendas-recicladas', name: 'Prendas recicladas' },
+  { id: 'accesorios-textiles', name: 'Accesorios textiles' },
+]
+
 export const getProducts = () => {
   return new Promise((resolve) => {
     setTimeout(() => {

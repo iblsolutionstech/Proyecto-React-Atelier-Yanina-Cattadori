@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -9,13 +10,16 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
 function Item({ product }) {
   return (
     <article className="product-card">
-      <img className="product-image" src={product.img} alt={product.name} />
+      <Link className="product-image-link" to={`/item/${product.id}`} aria-label={`Ver detalle de ${product.name}`}>
+        <img className="product-image" src={product.img} alt={product.name} />
+      </Link>
       <div className="product-info">
         <span className="product-category">{product.category}</span>
-        <h2>{product.name}</h2>
+        <h2><Link to={`/item/${product.id}`}>{product.name}</Link></h2>
         <div className="product-meta">
           <strong>{currencyFormatter.format(product.price)}</strong>
         </div>
+        <Link className="product-detail-link" to={`/item/${product.id}`}>Ver detalle</Link>
       </div>
     </article>
   )
