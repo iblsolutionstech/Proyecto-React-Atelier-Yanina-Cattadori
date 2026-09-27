@@ -24,9 +24,11 @@ La aplicacion incorpora React Router para navegar sin recargar la pagina. Las ru
 - `/`: catalogo completo.
 - `/category/:categoryId`: productos filtrados por categoria.
 - `/item/:itemId`: detalle dinamico de cada producto.
+- `/checkout`: ruta protegida para continuar con la compra.
+- `/acceso-restringido`: redireccion para usuarios sin acceso al checkout.
 - `*`: pagina 404 para direcciones inexistentes.
 
-Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles.
+Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. El acceso al checkout se realiza desde el carrito y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior.
 
 ## Validaciones y pruebas
 
