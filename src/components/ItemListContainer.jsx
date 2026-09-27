@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
 import { getProducts } from '../mock/asyncMock.js'
 import { categories } from '../mock/asyncMock.js'
+import HomeHero from './HomeHero.jsx'
 import ItemList from './ItemList.jsx'
 
 function ItemListContainer({ greeting }) {
@@ -44,13 +45,36 @@ function ItemListContainer({ greeting }) {
 
   return (
     <main className="item-list-container">
-      <section className="welcome-panel">
-        <p className="eyebrow">Moda circular y diseno responsable</p>
-        <h1>{heading}</h1>
-        <p>{description}</p>
-      </section>
+      {selectedCategory ? (
+        <section className="welcome-panel">
+          <p className="eyebrow">Moda circular y diseno responsable</p>
+          <h1>{heading}</h1>
+          <p>{description}</p>
+        </section>
+      ) : (
+        <>
+          <HomeHero />
+          <section className="service-explorer" aria-labelledby="service-explorer-title">
+            <div className="section-intro">
+              <p className="eyebrow">Servicios del atelier</p>
+              <h2 id="service-explorer-title">Cada prenda tiene una segunda posibilidad</h2>
+            </div>
+            <div className="service-links">
+              {categories.map((category, index) => (
+                <Link to={`/category/${category.id}`} key={category.id}>
+                  <span>0{index + 1}</span>
+                  <h3>{category.name}</h3>
+                  <p>{category.description}</p>
+                  <strong>Ver opciones</strong>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
 
-      <section className="catalog-section" aria-label="Catalogo de productos">
+      <section className="catalog-section" id="catalogo" aria-label="Catalogo de productos">
+        {!selectedCategory && <h2 className="catalog-title">Catalogo del atelier</h2>}
         <div className="catalog-toolbar">
           <p>{selectedCategory ? `${items.length} opciones en esta categoria` : `${items.length} servicios y piezas disponibles`}</p>
           {selectedCategory && <Link to="/">Ver todo el catalogo</Link>}

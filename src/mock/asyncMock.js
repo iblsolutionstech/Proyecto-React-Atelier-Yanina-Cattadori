@@ -57,10 +57,10 @@ export const products = [
 ]
 
 export const categories = [
-  { id: 'arreglos', name: 'Arreglos' },
-  { id: 'transformaciones', name: 'Transformaciones' },
-  { id: 'prendas-recicladas', name: 'Prendas recicladas' },
-  { id: 'accesorios-textiles', name: 'Accesorios textiles' },
+  { id: 'arreglos', name: 'Arreglos', description: 'Ajustes, composturas y nuevas terminaciones.' },
+  { id: 'transformaciones', name: 'Transformaciones', description: 'Otra forma de mirar una prenda que ya tenes.' },
+  { id: 'prendas-recicladas', name: 'Prendas recicladas', description: 'Piezas unicas creadas con textiles recuperados.' },
+  { id: 'accesorios-textiles', name: 'Accesorios textiles', description: 'Objetos cotidianos con materiales reutilizados.' },
 ]
 
 export const getProducts = () => {
