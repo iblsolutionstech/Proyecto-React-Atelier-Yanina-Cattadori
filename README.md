@@ -28,7 +28,7 @@ La aplicacion incorpora React Router para navegar sin recargar la pagina. Las ru
 - `/acceso-restringido`: redireccion para usuarios sin acceso al checkout.
 - `*`: pagina 404 para direcciones inexistentes.
 
-Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. El acceso al checkout se realiza desde el carrito y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior.
+Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. El acceso al checkout se realiza desde el carrito y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior. Si se intenta acceder sin permiso, la aplicacion redirige a `/acceso-restringido` y conserva la ruta solicitada para informar el motivo del acceso restringido.
 
 ## Validaciones y pruebas
 
@@ -38,7 +38,7 @@ Los componentes que reciben props validan los datos esperados mediante PropTypes
 
 La carga de productos se simula en `src/mock/asyncMock.js` con una función `getProducts` que devuelve una Promise. Esa Promise usa `setTimeout` para resolver después de 2 segundos y entregar un array de productos con id, name, price, category, img, stock y description.
 
-La función `getProductById`, ubicada en `src/services/getProductById.js`, recibe un identificador, busca el producto correspondiente en el mismo catálogo y devuelve una Promise. La vista de detalle utiliza temporalmente un identificador definido en `App.jsx`; más adelante podrá reemplazarse por el valor de una ruta dinámica.
+La función `getProductById`, ubicada en `src/services/getProductById.js`, recibe un identificador, busca el producto correspondiente en el mismo catálogo y devuelve una Promise. `ItemDetailContainer` obtiene el identificador dinámico mediante `useParams` desde la ruta `/item/:itemId`, carga el producto correspondiente y delega su presentación a `ItemDetail`.
 
 ## Tecnologías
 
