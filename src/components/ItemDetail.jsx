@@ -1,5 +1,8 @@
 import ItemCount from './ItemCount.jsx'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useCart } from '../context/CartContext.jsx'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -8,6 +11,14 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
 })
 
 function ItemDetail({ product }) {
+  const { addItem } = useCart()
+  const [wasAdded, setWasAdded] = useState(false)
+
+  const handleAdd = (quantity) => {
+    addItem(product, quantity)
+    setWasAdded(true)
+  }
+
   return (
     <article className="product-detail">
       <div className="product-detail-image-wrapper">
@@ -32,7 +43,10 @@ function ItemDetail({ product }) {
           </div>
         </dl>
 
-        <ItemCount stock={product.stock} />
+        <ItemCount stock={product.stock} onAdd={handleAdd} />
+        {wasAdded && (
+          <Link className="detail-cart-link" to="/cart">Ver carrito</Link>
+        )}
       </div>
     </article>
   )

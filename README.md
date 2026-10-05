@@ -7,13 +7,15 @@ La aplicación está organizada por componentes y utiliza Vite como entorno de d
 ## Componentes principales
 
 - Navbar: muestra la marca del atelier, categorías de productos y el acceso al carrito.
-- CartWidget: muestra un ícono de carrito con una cantidad fija de productos.
+- CartWidget: muestra un ícono de carrito con la cantidad total seleccionada.
+- CartContext: centraliza el estado del carrito y expone las acciones para sumar, quitar y vaciar productos.
 - ItemListContainer: recibe un mensaje de bienvenida mediante props, obtiene productos de forma asíncrona y guarda el resultado en estado.
 - ItemList: recibe los productos por props y los recorre con map para renderizar el listado.
 - Item: muestra la información resumida de cada producto en una card.
 - ItemDetailContainer: obtiene un producto por su identificador y administra los estados de carga y error.
 - ItemDetail: presenta la información completa del producto seleccionado.
 - ItemCount: controla la cantidad elegida sin superar el stock disponible ni disminuir por debajo de cero.
+- Cart: presenta los productos seleccionados, subtotales, total de compra y acciones para quitar o vaciar el carrito.
 - Layout: mantiene visibles la navegacion y el pie de pagina en todas las rutas.
 - NotFound: informa cuando la direccion solicitada no existe.
 
@@ -24,11 +26,12 @@ La aplicacion incorpora React Router para navegar sin recargar la pagina. Las ru
 - `/`: catalogo completo.
 - `/category/:categoryId`: productos filtrados por categoria.
 - `/item/:itemId`: detalle dinamico de cada producto.
+- `/cart`: carrito de compras con resumen y total.
 - `/checkout`: ruta protegida para continuar con la compra.
 - `/acceso-restringido`: redireccion para usuarios sin acceso al checkout.
 - `*`: pagina 404 para direcciones inexistentes.
 
-Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. El acceso al checkout se realiza desde el carrito y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior. Si se intenta acceder sin permiso, la aplicacion redirige a `/acceso-restringido` y conserva la ruta solicitada para informar el motivo del acceso restringido.
+Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. Desde el detalle se selecciona una cantidad de acuerdo con el stock y se suma el producto al carrito. El acceso al checkout se realiza desde el resumen de compra y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior. Si se intenta acceder sin permiso, la aplicacion redirige a `/acceso-restringido` y conserva la ruta solicitada para informar el motivo del acceso restringido.
 
 ## Validaciones y pruebas
 

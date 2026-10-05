@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useCart } from '../context/CartContext.jsx'
 
 function CartWidget() {
+  const { totalItems } = useCart()
+
   return (
-    <Link className="cart-widget" to="/checkout" aria-label="Ir al checkout con 3 productos">
+    <Link className="cart-widget" to="/cart" aria-label={`Ir al carrito con ${totalItems} productos`}>
       <span className="cart-icon" aria-hidden="true">
         🛒
       </span>
-      <span className="cart-count">3</span>
+      {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
     </Link>
   )
 }
