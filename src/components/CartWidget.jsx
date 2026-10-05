@@ -9,7 +9,7 @@ function CartWidget() {
     <Link className="cart-widget" to="/cart" aria-label={`Ir al carrito con ${totalItems} productos`}>
       <ShoppingBag aria-hidden="true" size={19} strokeWidth={1.8} />
       <span className="cart-widget-label">Bolsa</span>
-      {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+      {totalItems > 0 && <span className="cart-count" key={totalItems}>{totalItems}</span>}
     </Link>
   )
 }

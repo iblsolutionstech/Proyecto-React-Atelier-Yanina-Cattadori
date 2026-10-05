@@ -14,3 +14,19 @@ pnpm-debug.log*
 
 .DS_Store
 Thumbs.db
+
+# Playwright
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache
+
+# Impeccable (cache del launcher)
+.claude/skills/impeccable/scripts/.cache
+
+# Configuracion local de herramientas de desarrollo
+.claude/
+.impeccable/
+.mcp.json
+DESIGN.md
+PRODUCT.md

@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useCart } from '../context/CartContext.jsx'
-
-const currencyFormatter = new Intl.NumberFormat('es-AR', {
-  style: 'currency',
-  currency: 'ARS',
-  maximumFractionDigits: 0,
-})
+import { currencyFormatter, getProductKind, productKindLabels } from '../utils/productKind.js'
 
 function ItemDetail({ product }) {
   const { addItem } = useCart()
   const [wasAdded, setWasAdded] = useState(false)
+  const kind = getProductKind(product.category)
 
   const handleAdd = (quantity) => {
     addItem(product, quantity)
@@ -20,16 +16,25 @@ function ItemDetail({ product }) {
   }
 
   return (
-    <article className="product-detail">
-      <div className="product-detail-image-wrapper">
-        <img className="product-detail-image" src={product.img} alt={product.name} />
+    <article className={`product-detail kind-${kind}`}>
+      <div className="product-detail-image-wrapper hang frame-type-wood" style={{ '--tilt': '-0.4deg' }}>
+        <div className="frame">
+          <span className="frame-window">
+            <img className="product-detail-image" src={product.img} alt={product.name} />
+          </span>
+        </div>
       </div>
 
       <div className="product-detail-info">
-        <span className="product-category">{product.category}</span>
         <h2>{product.name}</h2>
+        <p className="product-kind-line">
+          <span className="kind-swatch" aria-hidden="true" />
+          <span className="product-category">{product.category}</span>
+          <span aria-hidden="true">·</span>
+          <span>{productKindLabels[kind]}</span>
+        </p>
         <strong className="product-detail-price">{currencyFormatter.format(product.price)}</strong>
-        <p>{product.description}</p>
+        <p className="product-detail-lead">{product.description}</p>
         <p className="product-detail-description">{product.details}</p>
 
         <dl className="product-detail-data">
@@ -45,7 +50,7 @@ function ItemDetail({ product }) {
 
         <ItemCount stock={product.stock} onAdd={handleAdd} />
         {wasAdded && (
-          <Link className="detail-cart-link" to="/cart">Ver carrito</Link>
+          <Link className="detail-cart-link secondary-action" to="/cart">Ver carrito</Link>
         )}
       </div>
     </article>
