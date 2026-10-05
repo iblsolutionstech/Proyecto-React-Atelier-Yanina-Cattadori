@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ShoppingBag } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
 
 function CartWidget() {
@@ -6,9 +7,8 @@ function CartWidget() {
 
   return (
     <Link className="cart-widget" to="/cart" aria-label={`Ir al carrito con ${totalItems} productos`}>
-      <span className="cart-icon" aria-hidden="true">
-        🛒
-      </span>
+      <ShoppingBag aria-hidden="true" size={19} strokeWidth={1.8} />
+      <span className="cart-widget-label">Bolsa</span>
       {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
     </Link>
   )
