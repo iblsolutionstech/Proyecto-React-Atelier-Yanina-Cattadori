@@ -35,7 +35,7 @@ Las cards del catalogo enlazan al detalle de cada producto y el menu permite rec
 
 ## Validaciones y pruebas
 
-Los componentes que reciben props validan los datos esperados mediante PropTypes. Se incorporaron pruebas automatizadas para `getProductById`, que verifican la búsqueda dinámica de productos y la respuesta ante un identificador inexistente.
+Los componentes que reciben props validan los datos esperados mediante PropTypes. Se incorporaron pruebas automatizadas para `getProductById` y para la lógica del carrito, que verifican la búsqueda dinámica de productos, la respuesta ante un identificador inexistente, el límite de stock y el cálculo de totales.
 
 ## Simulación de datos
 

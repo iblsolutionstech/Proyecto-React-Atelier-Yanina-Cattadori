@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
+import { addCartItem, getCartTotalItems, getCartTotalPrice, removeCartItem } from './cartUtils.js'
 
 const CartContext = createContext(undefined)
 
@@ -9,23 +10,11 @@ function CartProvider({ children }) {
   const addItem = (item, quantity) => {
     if (!Number.isInteger(quantity) || quantity <= 0) return
 
-    setCart((currentCart) => {
-      const itemInCart = currentCart.find((cartItem) => cartItem.id === item.id)
-
-      if (itemInCart) {
-        return currentCart.map((cartItem) => (
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: Math.min(cartItem.stock, cartItem.quantity + quantity) }
-            : cartItem
-        ))
-      }
-
-      return [...currentCart, { ...item, quantity: Math.min(item.stock, quantity) }]
-    })
+    setCart((currentCart) => addCartItem(currentCart, item, quantity))
   }
 
   const removeItem = (itemId) => {
-    setCart((currentCart) => currentCart.filter((item) => item.id !== itemId))
+    setCart((currentCart) => removeCartItem(currentCart, itemId))
   }
 
   const clear = () => {
@@ -33,8 +22,8 @@ function CartProvider({ children }) {
   }
 
   const isInCart = (itemId) => cart.some((item) => item.id === itemId)
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
-  const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0)
+  const totalItems = getCartTotalItems(cart)
+  const totalPrice = getCartTotalPrice(cart)
 
   const value = useMemo(() => ({
     cart,
