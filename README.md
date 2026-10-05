@@ -51,6 +51,8 @@ La función `getProductById`, ubicada en `src/services/getProductById.js`, recib
 - Vite
 - HTML
 - CSS
+- DM Serif Display y Manrope
+- Lucide React
 
 ## Estructura
 

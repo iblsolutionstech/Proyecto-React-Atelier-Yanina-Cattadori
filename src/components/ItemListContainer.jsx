@@ -1,10 +1,18 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
 import { getProducts } from '../mock/asyncMock.js'
 import { categories } from '../mock/asyncMock.js'
 import HomeHero from './HomeHero.jsx'
 import ItemList from './ItemList.jsx'
+
+const categoryVisuals = {
+  arreglos: '/products/ajuste-sastrero.jpg',
+  transformaciones: '/products/transformacion-camisa.jpg',
+  'prendas-recicladas': '/products/falda-reciclada.jpg',
+  'accesorios-textiles': '/products/bolso-retazos.jpg',
+}
 
 function ItemListContainer({ greeting }) {
   const { categoryId } = useParams()
@@ -47,7 +55,6 @@ function ItemListContainer({ greeting }) {
     <main className="item-list-container">
       {selectedCategory ? (
         <section className="welcome-panel">
-          <p className="eyebrow">Moda circular y diseno responsable</p>
           <h1>{heading}</h1>
           <p>{description}</p>
         </section>
@@ -56,16 +63,18 @@ function ItemListContainer({ greeting }) {
           <HomeHero />
           <section className="service-explorer" aria-labelledby="service-explorer-title">
             <div className="section-intro">
-              <p className="eyebrow">Servicios del atelier</p>
               <h2 id="service-explorer-title">Cada prenda tiene una segunda posibilidad</h2>
+              <p>Elegí el punto de partida. El resto se trabaja en el atelier, a medida de cada historia.</p>
             </div>
             <div className="service-links">
-              {categories.map((category, index) => (
-                <Link to={`/category/${category.id}`} key={category.id}>
-                  <span>0{index + 1}</span>
-                  <h3>{category.name}</h3>
-                  <p>{category.description}</p>
-                  <strong>Ver opciones</strong>
+              {categories.map((category) => (
+                <Link className={`service-link service-link-${category.id}`} to={`/category/${category.id}`} key={category.id}>
+                  <img src={categoryVisuals[category.id]} alt="" />
+                  <div>
+                    <h3>{category.name}</h3>
+                    <p>{category.description}</p>
+                    <strong>Explorar <ArrowUpRight aria-hidden="true" size={15} /></strong>
+                  </div>
                 </Link>
               ))}
             </div>

@@ -1,20 +1,22 @@
 import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
 
 function HomeHero() {
   return (
     <section className="home-hero">
       <div className="hero-shade" />
       <div className="hero-content">
-        <p className="eyebrow hero-eyebrow">Atelier Yanina Cattadori</p>
-        <h1>Reparar tambien es crear.</h1>
+        <p className="hero-brand">Yanina Cattadori</p>
+        <h1>Reparar tambien es una forma de disenar.</h1>
         <p>
-          Arreglos, transformaciones y piezas textiles para elegir una moda con mas historia.
+          Un atelier para prendas que merecen seguir en movimiento.
         </p>
         <div className="hero-actions">
-          <Link className="primary-action" to="/category/arreglos">Ver arreglos</Link>
+          <Link className="primary-action" to="/category/arreglos">Ver arreglos <ArrowUpRight aria-hidden="true" size={17} /></Link>
           <Link className="secondary-action" to="/category/transformaciones">Explorar transformaciones</Link>
         </div>
       </div>
+      <p className="hero-note">Moda circular · Arreglos · Transformaciones</p>
     </section>
   )
 }

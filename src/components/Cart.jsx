@@ -14,7 +14,6 @@ function Cart() {
     return (
       <main className="cart-page">
         <section className="cart-empty">
-          <p className="eyebrow">Tu seleccion</p>
           <h1>Tu carrito esta esperando una pieza con historia.</h1>
           <p>Explora el catalogo para sumar arreglos, prendas recuperadas y accesorios textiles.</p>
           <Link className="primary-action cart-empty-action" to="/">Ver catalogo</Link>
@@ -28,7 +27,6 @@ function Cart() {
       <section className="cart-content">
         <div className="cart-heading">
           <div>
-            <p className="eyebrow">Tu seleccion</p>
             <h1>Carrito</h1>
           </div>
           <p>{totalItems} {totalItems === 1 ? 'pieza seleccionada' : 'piezas seleccionadas'}</p>

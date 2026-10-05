@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
@@ -19,7 +20,7 @@ function Item({ product }) {
         <div className="product-meta">
           <strong>{currencyFormatter.format(product.price)}</strong>
         </div>
-        <Link className="product-detail-link" to={`/item/${product.id}`}>Ver detalle</Link>
+        <Link className="product-detail-link" to={`/item/${product.id}`}>Ver detalle <ArrowUpRight aria-hidden="true" size={16} /></Link>
       </div>
     </article>
   )

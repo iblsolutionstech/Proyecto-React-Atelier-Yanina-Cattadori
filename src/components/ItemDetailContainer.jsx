@@ -54,7 +54,6 @@ function ItemDetailContainer() {
   return (
     <section className="product-detail-section" aria-labelledby="product-detail-title">
       <div className="product-detail-heading">
-        <p className="eyebrow">Servicio destacado</p>
         <h2 id="product-detail-title">Detalle del producto</h2>
       </div>
       <ItemDetail product={product} />
