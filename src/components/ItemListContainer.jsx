@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import { getProducts } from '../mock/asyncMock.js'
 import { categories } from '../mock/asyncMock.js'
-import HomeHero from './HomeHero.jsx'
+import CategoryRack from './CategoryRack.jsx'
+import EmptyFrame from './EmptyFrame.jsx'
+import HomeWall from './HomeWall.jsx'
 import ItemList from './ItemList.jsx'
-
-const categoryVisuals = {
-  arreglos: '/products/ajuste-sastrero.jpg',
-  transformaciones: '/products/transformacion-camisa.jpg',
-  'prendas-recicladas': '/products/falda-reciclada.jpg',
-  'accesorios-textiles': '/products/bolso-retazos.jpg',
-}
 
 function ItemListContainer({ greeting }) {
   const { categoryId } = useParams()
@@ -46,56 +40,42 @@ function ItemListContainer({ greeting }) {
     }
   }, [categoryId, selectedCategory?.name])
 
-  const heading = selectedCategory ? selectedCategory.name : greeting
-  const description = selectedCategory
-    ? `Servicios y piezas de ${selectedCategory.name.toLowerCase()} disponibles en el atelier.`
-    : 'Arreglos, transformaciones y prendas intervenidas para darle una nueva vida a cada pieza.'
+  if (!selectedCategory) {
+    return (
+      <main className="item-list-container item-list-home" aria-label={greeting}>
+        <HomeWall items={items} isLoading={isLoading} />
+        <CategoryRack />
+      </main>
+    )
+  }
 
   return (
     <main className="item-list-container">
-      {selectedCategory ? (
-        <section className="welcome-panel">
-          <h1>{heading}</h1>
-          <p>{description}</p>
-        </section>
-      ) : (
-        <>
-          <HomeHero />
-          <section className="service-explorer" aria-labelledby="service-explorer-title">
-            <div className="section-intro">
-              <h2 id="service-explorer-title">Cada prenda tiene una segunda posibilidad</h2>
-              <p>Elegí el punto de partida. El resto se trabaja en el atelier, a medida de cada historia.</p>
-            </div>
-            <div className="service-links">
-              {categories.map((category) => (
-                <Link className={`service-link service-link-${category.id}`} to={`/category/${category.id}`} key={category.id}>
-                  <img src={categoryVisuals[category.id]} alt="" />
-                  <div>
-                    <h3>{category.name}</h3>
-                    <p>{category.description}</p>
-                    <strong>Explorar <ArrowUpRight aria-hidden="true" size={15} /></strong>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </>
-      )}
+      <section className="welcome-panel">
+        <h1>{selectedCategory.name}</h1>
+        <p>{`Servicios y piezas de ${selectedCategory.name.toLowerCase()} disponibles en el atelier.`}</p>
+      </section>
 
       <section className="catalog-section" id="catalogo" aria-label="Catalogo de productos">
-        {!selectedCategory && <h2 className="catalog-title">Catalogo del atelier</h2>}
         <div className="catalog-toolbar">
-          <p>{selectedCategory ? `${items.length} opciones en esta categoria` : `${items.length} servicios y piezas disponibles`}</p>
-          {selectedCategory && <Link to="/">Ver todo el catalogo</Link>}
+          <p role="status">{isLoading ? 'Cargando catalogo...' : `${items.length} opciones en esta categoria`}</p>
+          <Link to="/">Ver todo el catalogo</Link>
         </div>
         {isLoading ? (
-          <p className="loading-message">Cargando catalogo...</p>
+          <div className="product-grid rail" aria-hidden="true">
+            {[0, 1, 2].map((index) => (
+              <div className={`hang wall-placeholder rail-placeholder rail-placeholder-${index}`} key={index}>
+                <EmptyFrame />
+              </div>
+            ))}
+          </div>
         ) : items.length > 0 ? (
           <ItemList products={items} />
         ) : (
           <div className="empty-catalog">
+            <EmptyFrame />
             <h2>Esta categoria todavia no tiene productos disponibles</h2>
-            <Link to="/">Volver al catalogo completo</Link>
+            <Link className="secondary-action" to="/">Volver al catalogo completo</Link>
           </div>
         )}
       </section>

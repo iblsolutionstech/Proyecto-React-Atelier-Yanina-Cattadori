@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 function ItemList({ products }) {
   return (
-    <div className="product-grid">
-      {products.map((product) => (
-        <Item key={product.id} product={product} />
+    <div className="product-grid rail">
+      {products.map((product, index) => (
+        <Item key={product.id} product={product} index={index} layout="rail" />
       ))}
     </div>
   )

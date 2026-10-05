@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getProductById } from '../services/getProductById.js'
+import EmptyFrame from './EmptyFrame.jsx'
 import ItemDetail from './ItemDetail.jsx'
 
 function ItemDetailContainer() {
@@ -39,21 +40,27 @@ function ItemDetailContainer() {
   }, [itemId])
 
   if (isLoading) {
-    return <p className="detail-status">Cargando detalle del producto...</p>
+    return (
+      <section className="detail-status">
+        <EmptyFrame />
+        <p role="status">Cargando detalle del producto...</p>
+      </section>
+    )
   }
 
   if (error) {
     return (
       <section className="detail-status detail-status-error">
-        <p>{error}</p>
-        <Link to="/">Volver al catalogo</Link>
+        <EmptyFrame variant="fallen" />
+        <p role="alert">{error}</p>
+        <Link className="secondary-action" to="/">Volver al catalogo</Link>
       </section>
     )
   }
 
   return (
     <section className="product-detail-section" aria-labelledby="product-detail-title">
-      <div className="product-detail-heading">
+      <div className="product-detail-heading visually-hidden">
         <h2 id="product-detail-title">Detalle del producto</h2>
       </div>
       <ItemDetail product={product} />

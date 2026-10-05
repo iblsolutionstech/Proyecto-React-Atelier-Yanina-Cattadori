@@ -51,7 +51,7 @@ La función `getProductById`, ubicada en `src/services/getProductById.js`, recib
 - Vite
 - HTML
 - CSS
-- DM Serif Display y Manrope
+- Young Serif y Alegreya Sans
 - Lucide React
 
 ## Estructura
@@ -74,10 +74,16 @@ npm run dev
 
 Luego abrir en el navegador la dirección local indicada por Vite.
 
-Para ejecutar las pruebas:
+Para ejecutar las pruebas unitarias:
 
 ```bash
 npm test
+```
+
+Para las pruebas end-to-end (requiere `npx playwright install` la primera vez):
+
+```bash
+npm run test:e2e
 ```
 
 ## Objetivo
