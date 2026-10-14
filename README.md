@@ -12,7 +12,7 @@ React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore 
 - Detalle de producto consultado por el identificador del documento.
 - Carrito con control de cantidad según el stock mostrado y cálculo de totales.
 - Registro e ingreso con correo y contraseña mediante Firebase Authentication.
-- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra su ID y vacía el carrito.
+- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra su número de pedido y vacía el carrito.
 - Estados de carga, error, catálogo vacío y ruta inexistente.
 
 ## Configuración local
@@ -20,7 +20,7 @@ React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore 
 1. Ejecutá `npm install`.
 2. Copiá `.env.example` a `.env` y completá las seis variables del proyecto Firebase. El archivo `.env` está ignorado por Git. Los valores de configuración del cliente identifican el proyecto; las reglas de Firestore y Authentication controlan el acceso.
 3. En la consola de Firebase, habilitá **Authentication → Email/Password** y creá la base de datos **Cloud Firestore**.
-4. Cargá documentos en `items` con los campos indicados abajo. Configurá las reglas de Firestore para permitir la lectura del catálogo y la creación de órdenes por usuarios autenticados, de acuerdo con la política de tu proyecto.
+4. Cargá documentos en `items` con los campos indicados abajo y publicá las reglas de [firestore.rules](firestore.rules) en Firestore Database → Reglas.
 5. Ejecutá `npm run dev` y abrí la URL indicada por Vite.
 
 Cada documento de `items` usa su ID de Firestore para la ruta `/item/:itemId` y contiene:
@@ -53,7 +53,7 @@ Ejemplo de documento en `items` (el ID se asigna al documento):
 }
 ```
 
-Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total` y `createdAt` generado por el servidor. El checkout muestra el ID devuelto por Firestore únicamente después de una escritura exitosa.
+Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total`, `orderNumber` y `createdAt` generado por el servidor. El checkout muestra el número de pedido únicamente después de una escritura exitosa. El ID del documento sigue siendo la referencia interna de Firestore.
 
 Ejemplo de estructura de una orden:
 
@@ -71,9 +71,14 @@ Ejemplo de estructura de una orden:
     { "id": "id-del-producto", "name": "Remiendo visible denim", "price": 8500, "quantity": 1 }
   ],
   "total": 8500,
+  "orderNumber": 1,
   "createdAt": "Timestamp de Firestore generado por serverTimestamp()"
 }
 ```
+
+La numeración visible se presenta con seis dígitos (`000001`, `000002`...). Cada compra actualiza `metadata/orderSequence` y crea su orden en una transacción, para evitar números repetidos cuando coinciden dos compras. El documento de secuencia guarda `lastNumber` y `lastOrderId`.
+
+Si ya hay órdenes anteriores, asignales `orderNumber` en la consola de Firestore y creá `metadata/orderSequence` con `lastNumber` igual al mayor número asignado y `lastOrderId` igual al ID de esa última orden. Hacé esto antes de usar el checkout actualizado.
 
 ## Rutas
 

@@ -24,7 +24,7 @@ function Checkout() {
   const [buyer, setBuyer] = useState(initialBuyer)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [orderId, setOrderId] = useState('')
+  const [orderNumber, setOrderNumber] = useState('')
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -66,7 +66,7 @@ function Checkout() {
         total: totalPrice,
       })
 
-      setOrderId(order.id)
+      setOrderNumber(order.number)
       clear()
     } catch {
       setError('No se pudo registrar la compra. Intentá nuevamente.')
@@ -75,14 +75,14 @@ function Checkout() {
     }
   }
 
-  if (orderId) {
+  if (orderNumber) {
     return (
       <main className="checkout-page">
         <section className="checkout-confirmation">
           <h1>Gracias por elegir el atelier</h1>
           <p>Tu pedido fue registrado correctamente.</p>
           <p className="order-reference">
-            ID de orden: <strong>{orderId}</strong>
+            Número de pedido: <strong>{orderNumber}</strong>
           </p>
           <Link className="primary-action" to="/">
             Volver al catalogo
