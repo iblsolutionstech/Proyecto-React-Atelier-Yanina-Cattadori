@@ -138,7 +138,9 @@ function ItemListContainer({ greeting }) {
           <ItemList products={items} />
         ) : (
           <div className="empty-catalog">
-            <h2>Esta categoria todavia no tiene productos disponibles</h2>
+            <h2>{selectedCategory
+              ? 'Esta categoría todavía no tiene productos disponibles'
+              : 'Todavía no hay productos disponibles'}</h2>
             <Link to="/">Volver al catalogo completo</Link>
           </div>
         )}

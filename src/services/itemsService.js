@@ -35,12 +35,20 @@ export async function getItems(categoryId) {
 
   const snapshot = await getDocs(itemsQuery)
 
+  if (snapshot.empty && snapshot.metadata?.fromCache) {
+    throw new Error('No se pudo consultar el catálogo en Firestore.')
+  }
+
   return snapshot.docs.map(mapItem)
 }
 
 export async function getItemById(itemId) {
   const itemReference = doc(db, 'items', itemId)
   const snapshot = await getDoc(itemReference)
+
+  if (!snapshot.exists() && snapshot.metadata?.fromCache) {
+    throw new Error('No se pudo consultar el producto en Firestore.')
+  }
 
   if (!snapshot.exists()) {
     throw new Error('No se encontró el producto solicitado.')

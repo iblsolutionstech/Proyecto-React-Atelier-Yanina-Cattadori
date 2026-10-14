@@ -269,6 +269,8 @@ h1 { color: #171514; }
 .cart-clear { color: #4d5f58; }
 
 .nav-actions { display: flex; align-items: center; justify-self: end; gap: 22px; }
+.account-session { display: flex; align-items: center; min-width: 0; gap: 13px; }
+.account-email { display: block; max-width: 24ch; color: #ded7c6; font-size: .76rem; line-height: 1.2; overflow-wrap: anywhere; text-align: right; }
 .account-action { border: 0; padding: 8px 0; background: transparent; color: #ded7c6; font: inherit; font-size: .76rem; font-weight: 700; text-decoration: none; cursor: pointer; }
 .account-action:hover { color: #f0d4cf; }
 .nav-error { grid-column: 1 / -1; margin: 0; color: #f0d4cf; font-size: .78rem; text-align: right; }
@@ -313,6 +315,8 @@ h1 { color: #171514; }
   .brand-logo { width: 46px; height: 46px; }
   .brand-copy { gap: 0 4px; }
   .nav-actions { gap: 15px; }
+  .account-session { flex-direction: column; align-items: flex-end; gap: 0; }
+  .account-email { max-width: 14ch; font-size: .68rem; }
   .account-action { font-size: .7rem; }
   .auth-page, .checkout-page { padding: 58px 18px 82px; }
   .checkout-layout { grid-template-columns: 1fr; gap: 40px; }

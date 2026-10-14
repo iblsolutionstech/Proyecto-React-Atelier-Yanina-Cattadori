@@ -2,6 +2,10 @@
 
 Tienda de moda circular y servicios de arreglos, transformaciones y accesorios textiles. Construida con React, Vite, Firebase Authentication y Cloud Firestore.
 
+## Tecnologías
+
+React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore y CSS.
+
 ## Funcionalidades
 
 - Catálogo y categorías obtenidos de la colección `items` de Firestore.
@@ -33,7 +37,43 @@ Cada documento de `items` usa su ID de Firestore para la ruta `/item/:itemId` y 
 | `Detalle` | string | Descripción ampliada |
 | `TiempoEstimado` | string | Plazo mostrado en el detalle |
 
+Ejemplo de documento en `items` (el ID se asigna al documento):
+
+```json
+{
+  "Nombre": "Remiendo visible denim",
+  "Precio": 8500,
+  "Categoria": "Arreglos",
+  "IdCategoria": "arreglos",
+  "Imagen": "/products/remiendo-denim.jpg",
+  "Stock": 8,
+  "Descripcion": "Intervención artesanal en denim",
+  "Detalle": "Refuerzo y terminación visible",
+  "TiempoEstimado": "3 a 5 días hábiles"
+}
+```
+
 Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total` y `createdAt` generado por el servidor. El checkout muestra el ID devuelto por Firestore únicamente después de una escritura exitosa.
+
+Ejemplo de estructura de una orden:
+
+```json
+{
+  "userId": "uid-del-usuario",
+  "userEmail": "cliente@example.com",
+  "buyer": {
+    "fullName": "Cliente de ejemplo",
+    "phone": "+54 11 1234-5678",
+    "address": "Calle 123",
+    "city": "Rosario"
+  },
+  "items": [
+    { "id": "id-del-producto", "name": "Remiendo visible denim", "price": 8500, "quantity": 1 }
+  ],
+  "total": 8500,
+  "createdAt": "Timestamp de Firestore generado por serverTimestamp()"
+}
+```
 
 ## Rutas
 
@@ -47,7 +87,7 @@ Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, 
 
 Si una persona sin sesión intenta abrir `/checkout`, se la envía a `/login` y, al ingresar o registrarse, vuelve al checkout.
 
-## Pruebas y compilación
+## Comandos de desarrollo
 
 ```bash
 npm test
@@ -55,7 +95,7 @@ npm run build
 npm run test:e2e
 ```
 
-Las pruebas end to end usan la configuración Firebase local y requieren datos en `items`. El recorrido de compra real también depende de las reglas y servicios habilitados en Firebase.
+El recorrido automatizado usa la configuración Firebase local y requiere datos en `items`. La compra real también depende de las reglas y servicios habilitados en Firebase.
 
 ## Imágenes
 

@@ -44,9 +44,12 @@ function Navbar() {
 
         <div className="nav-actions">
           {user ? (
-            <button className="account-action" type="button" onClick={handleLogout}>
-              Salir
-            </button>
+            <div className="account-session">
+              <span className="account-email" title={user.email}>{user.email}</span>
+              <button className="account-action" type="button" onClick={handleLogout}>
+                Salir
+              </button>
+            </div>
           ) : (
             <NavLink className="account-action" to="/login">Ingresar</NavLink>
           )}

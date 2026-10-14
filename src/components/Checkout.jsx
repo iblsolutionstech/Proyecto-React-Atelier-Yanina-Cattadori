@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { createOrder } from '../services/ordersService.js'
+import { validateBuyer } from '../utils/validateBuyer.js'
 
 const initialBuyer = {
   fullName: '',
@@ -34,10 +35,6 @@ function Checkout() {
     }))
   }
 
-  function isValidBuyer() {
-    return Object.values(buyer).every((value) => value.trim().length > 0)
-  }
-
   async function handleSubmit(event) {
     event.preventDefault()
     setError('')
@@ -52,8 +49,10 @@ function Checkout() {
       return
     }
 
-    if (!isValidBuyer()) {
-      setError('Completá todos los datos de entrega.')
+    const { buyer: validatedBuyer, error: buyerError } = validateBuyer(buyer)
+
+    if (buyerError) {
+      setError(buyerError)
       return
     }
 
@@ -62,12 +61,7 @@ function Checkout() {
     try {
       const order = await createOrder({
         user,
-        buyer: {
-          fullName: buyer.fullName.trim(),
-          phone: buyer.phone.trim(),
-          address: buyer.address.trim(),
-          city: buyer.city.trim(),
-        },
+        buyer: validatedBuyer,
         cart,
         total: totalPrice,
       })
@@ -111,7 +105,7 @@ function Checkout() {
         </div>
 
         <div className="checkout-layout">
-          <form className="checkout-form" onSubmit={handleSubmit}>
+          <form className="checkout-form" onSubmit={handleSubmit} noValidate>
             <label htmlFor="fullName">Nombre y apellido</label>
             <input
               id="fullName"

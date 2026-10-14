@@ -63,6 +63,12 @@ describe('consultas de items en Firestore', () => {
     expect(getDocs).toHaveBeenCalledWith('category-query')
   })
 
+  it('no confunde una caché vacía sin conexión con un catálogo sin productos', async () => {
+    getDocs.mockResolvedValue({ docs: [], empty: true, metadata: { fromCache: true } })
+
+    await expect(getItems()).rejects.toThrow('No se pudo consultar el catálogo en Firestore.')
+  })
+
   it('busca por ID de documento y señala un producto inexistente', async () => {
     getDoc.mockResolvedValueOnce(itemDocument).mockResolvedValueOnce({ exists: () => false })
 
