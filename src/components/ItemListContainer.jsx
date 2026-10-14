@@ -1,35 +1,51 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
-import { getProducts } from '../mock/asyncMock.js'
-import { categories } from '../mock/asyncMock.js'
-import CategoryRack from './CategoryRack.jsx'
-import EmptyFrame from './EmptyFrame.jsx'
-import HomeWall from './HomeWall.jsx'
+import { ArrowUpRight } from 'lucide-react'
+import { categories } from '../constants/categories.js'
+import { getItems } from '../services/itemsService.js'
+import HomeHero from './HomeHero.jsx'
 import ItemList from './ItemList.jsx'
+
+const categoryVisuals = {
+  arreglos: '/products/ajuste-sastrero.jpg',
+  transformaciones: '/products/transformacion-camisa.jpg',
+  'prendas-recicladas': '/products/falda-reciclada.jpg',
+  'accesorios-textiles': '/products/bolso-retazos.jpg',
+}
 
 function ItemListContainer({ greeting }) {
   const { categoryId } = useParams()
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [reloadKey, setReloadKey] = useState(0)
 
-  const selectedCategory = categories.find((category) => category.id === categoryId)
+  const selectedCategory = categories.find(
+    (category) => category.id === categoryId,
+  )
 
   useEffect(() => {
     let isActive = true
 
-    setIsLoading(true)
+    async function loadProducts() {
+      setIsLoading(true)
+      setError('')
 
-    const loadProducts = async () => {
-      const products = await getProducts()
+      try {
+        const products = await getItems(categoryId)
 
-      if (isActive) {
-        const filteredProducts = categoryId
-          ? products.filter((product) => product.category === selectedCategory?.name)
-          : products
-
-        setItems(filteredProducts)
-        setIsLoading(false)
+        if (isActive) {
+          setItems(products)
+        }
+      } catch (requestError) {
+        if (isActive) {
+          setError('No se pudo cargar el catalogo. Intentá nuevamente.')
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false)
+        }
       }
     }
 
@@ -38,44 +54,92 @@ function ItemListContainer({ greeting }) {
     return () => {
       isActive = false
     }
-  }, [categoryId, selectedCategory?.name])
+  }, [categoryId, reloadKey])
 
-  if (!selectedCategory) {
-    return (
-      <main className="item-list-container item-list-home" aria-label={greeting}>
-        <HomeWall items={items} isLoading={isLoading} />
-        <CategoryRack />
-      </main>
-    )
-  }
+  const heading = selectedCategory ? selectedCategory.name : greeting
+  const description = selectedCategory
+    ? `Servicios y piezas de ${selectedCategory.name.toLowerCase()} disponibles en el atelier.`
+    : 'Arreglos, transformaciones y prendas intervenidas para darle una nueva vida a cada pieza.'
 
   return (
     <main className="item-list-container">
-      <section className="welcome-panel">
-        <h1>{selectedCategory.name}</h1>
-        <p>{`Servicios y piezas de ${selectedCategory.name.toLowerCase()} disponibles en el atelier.`}</p>
-      </section>
+      {selectedCategory ? (
+        <section className="welcome-panel">
+          <h1>{heading}</h1>
+          <p>{description}</p>
+        </section>
+      ) : (
+        <>
+          <HomeHero />
+          <section
+            className="service-explorer"
+            aria-labelledby="service-explorer-title"
+          >
+            <div className="section-intro">
+              <h2 id="service-explorer-title">
+                Cada prenda tiene una segunda posibilidad
+              </h2>
+              <p>
+                Elegí el punto de partida. El resto se trabaja en el atelier,
+                a medida de cada historia.
+              </p>
+            </div>
 
-      <section className="catalog-section" id="catalogo" aria-label="Catalogo de productos">
+            <div className="service-links">
+              {categories.map((category) => (
+                <Link
+                  className={`service-link service-link-${category.id}`}
+                  to={`/category/${category.id}`}
+                  key={category.id}
+                >
+                  <img src={categoryVisuals[category.id]} alt="" />
+                  <div>
+                    <h3>{category.name}</h3>
+                    <p>{category.description}</p>
+                    <strong>
+                      Explorar <ArrowUpRight aria-hidden="true" size={15} />
+                    </strong>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      <section
+        className="catalog-section"
+        id="catalogo"
+        aria-label="Catalogo de productos"
+      >
+        {!selectedCategory && (
+          <h2 className="catalog-title">Catalogo del atelier</h2>
+        )}
+
         <div className="catalog-toolbar">
-          <p role="status">{isLoading ? 'Cargando catalogo...' : `${items.length} opciones en esta categoria`}</p>
-          <Link to="/">Ver todo el catalogo</Link>
+          <p>
+            {selectedCategory
+              ? `${items.length} opciones en esta categoria`
+              : `${items.length} servicios y piezas disponibles`}
+          </p>
+          {selectedCategory && <Link to="/">Ver todo el catalogo</Link>}
         </div>
-        {isLoading ? (
-          <div className="product-grid rail" aria-hidden="true">
-            {[0, 1, 2].map((index) => (
-              <div className={`hang wall-placeholder rail-placeholder rail-placeholder-${index}`} key={index}>
-                <EmptyFrame />
-              </div>
-            ))}
+
+        {error ? (
+          <div className="empty-catalog">
+            <h2>{error}</h2>
+            <button className="text-action" type="button" onClick={() => setReloadKey((key) => key + 1)}>
+              Reintentar carga
+            </button>
           </div>
+        ) : isLoading ? (
+          <p className="loading-message">Cargando catalogo...</p>
         ) : items.length > 0 ? (
           <ItemList products={items} />
         ) : (
           <div className="empty-catalog">
-            <EmptyFrame />
             <h2>Esta categoria todavia no tiene productos disponibles</h2>
-            <Link className="secondary-action" to="/">Volver al catalogo completo</Link>
+            <Link to="/">Volver al catalogo completo</Link>
           </div>
         )}
       </section>

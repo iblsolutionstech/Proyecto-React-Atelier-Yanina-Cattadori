@@ -1,15 +1,33 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import CartWidget from './CartWidget.jsx'
-import { categories } from '../mock/asyncMock.js'
+import { categories } from '../constants/categories.js'
+import { useAuth } from '../context/AuthContext.jsx'
 
 function Navbar() {
+  const { user, logout } = useAuth()
+  const [logoutError, setLogoutError] = useState('')
+
+  async function handleLogout() {
+    setLogoutError('')
+
+    try {
+      await logout()
+    } catch {
+      setLogoutError('No se pudo cerrar la sesión. Intentá nuevamente.')
+    }
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-content">
         <NavLink className="brand" to="/" aria-label="Ir al inicio de YaninaCattadori">
-          <span className="brand-signature">Yanina</span>
-          <span className="brand-surname">Cattadori</span>
-          <span className="brand-caption">Atelier circular</span>
+          <img className="brand-logo" src="/brand/yanina-cattadori-logo.jpeg" alt="" />
+          <span className="brand-copy">
+            <span className="brand-signature">Yanina</span>
+            <span className="brand-surname">Cattadori</span>
+            <span className="brand-caption">Atelier circular</span>
+          </span>
         </NavLink>
 
         <nav className="category-nav" aria-label="Categorias de productos">
@@ -24,7 +42,17 @@ function Navbar() {
           ))}
         </nav>
 
-        <CartWidget />
+        <div className="nav-actions">
+          {user ? (
+            <button className="account-action" type="button" onClick={handleLogout}>
+              Salir
+            </button>
+          ) : (
+            <NavLink className="account-action" to="/login">Ingresar</NavLink>
+          )}
+          <CartWidget />
+        </div>
+        {logoutError && <p className="nav-error" role="alert">{logoutError}</p>}
       </div>
     </header>
   )

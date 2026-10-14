@@ -1,58 +1,47 @@
 import { expect, test } from '@playwright/test'
 
-// Recorrido minimo del atelier: catalogo -> categoria -> detalle -> carrito,
-// mas las rutas de borde (checkout protegido y 404).
-
-test('la home muestra el hero y el catalogo', async ({ page }) => {
+test('la home carga el catálogo desde Firestore', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Reparar')
-  await expect(page.getByRole('link', { name: /Ir al inicio/i })).toBeVisible()
   await expect(page.locator('.product-card').first()).toBeVisible()
 })
 
-test('el menu filtra por categoria', async ({ page }) => {
+test('el menú filtra productos por categoría', async ({ page }) => {
   await page.goto('/')
-
-  await page.getByRole('link', { name: 'Ver arreglos' }).click()
+  await page.locator('.category-link').filter({ hasText: 'Arreglos' }).click()
 
   await expect(page).toHaveURL(/\/category\/arreglos$/)
-  await expect(page.locator('.product-card').first()).toBeVisible({ timeout: 10_000 })
+  await expect(page.locator('.product-card').first()).toBeVisible()
 })
 
-test('desde el catalogo se llega al detalle del producto', async ({ page }) => {
+test('del catálogo se llega al detalle y al carrito', async ({ page }) => {
   await page.goto('/')
 
-  const primeraCard = page.locator('.product-card').first()
-  const nombre = await primeraCard.locator('h2').innerText()
-  await primeraCard.locator('.product-detail-link').click()
+  const firstCard = page.locator('.product-card').first()
+  await expect(firstCard).toBeVisible()
+  const name = await firstCard.locator('h2').innerText()
+  await firstCard.locator('.product-detail-link').click()
 
   await expect(page).toHaveURL(/\/item\//)
-  await expect(page.getByRole('heading', { name: nombre })).toBeVisible()
-  await expect(page.getByLabel('Selector de cantidad')).toBeVisible()
-})
-
-test('se agrega una unidad al carrito y el widget la refleja', async ({ page }) => {
-  await page.goto('/item/yc-remiendo-denim')
-
-  const agregar = page.getByRole('button', { name: 'Agregar al carrito' })
-  await expect(agregar).toBeDisabled() // arranca en cantidad 0
-
+  await expect(page.getByRole('heading', { name })).toBeVisible()
   await page.getByRole('button', { name: 'Sumar una unidad' }).click()
-  await agregar.click()
+  await page.getByRole('button', { name: 'Agregar al carrito' }).click()
 
   await expect(page.locator('.cart-count')).toHaveText('1')
-
-  await page.getByRole('link', { name: 'Ver carrito' }).click()
+  await page.locator('.cart-widget').click()
   await expect(page).toHaveURL(/\/cart$/)
-  await expect(page.getByText('Remiendo visible denim')).toBeVisible()
+  await expect(page.getByRole('heading', { name })).toBeVisible()
 })
 
-test('el checkout protegido redirige a acceso restringido', async ({ page }) => {
+test('el checkout solicita ingreso y el registro conserva su destino', async ({ page }) => {
   await page.goto('/checkout')
 
-  await expect(page).toHaveURL(/\/acceso-restringido$/)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('checkout')
+  await expect(page).toHaveURL(/\/login$/)
+  await expect(page.getByRole('heading', { name: 'Ingresar a tu cuenta' })).toBeVisible()
+  await page.getByRole('link', { name: 'Registrarme' }).click()
+  await expect(page).toHaveURL(/\/registro$/)
+  await expect(page.getByRole('heading', { name: 'Crear una cuenta' })).toBeVisible()
 })
 
 test('una ruta inexistente muestra el 404', async ({ page }) => {

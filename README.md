@@ -1,101 +1,68 @@
-# Atelier Yanina Cattadori · React
+# Atelier Yanina Cattadori
 
-Proyecto web desarrollado con React para un atelier de moda circular, arreglos de ropa, transformación de prendas y diseño de indumentaria.
+Tienda de moda circular y servicios de arreglos, transformaciones y accesorios textiles. Construida con React, Vite, Firebase Authentication y Cloud Firestore.
 
-La aplicación está organizada por componentes y utiliza Vite como entorno de desarrollo.
+## Funcionalidades
 
-## Componentes principales
+- Catálogo y categorías obtenidos de la colección `items` de Firestore.
+- Detalle de producto consultado por el identificador del documento.
+- Carrito con control de cantidad según el stock mostrado y cálculo de totales.
+- Registro e ingreso con correo y contraseña mediante Firebase Authentication.
+- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra su ID y vacía el carrito.
+- Estados de carga, error, catálogo vacío y ruta inexistente.
 
-- Navbar: muestra la marca del atelier, categorías de productos y el acceso al carrito.
-- CartWidget: muestra un ícono de carrito con la cantidad total seleccionada.
-- CartContext: centraliza el estado del carrito y expone las acciones para sumar, quitar y vaciar productos.
-- ItemListContainer: recibe un mensaje de bienvenida mediante props, obtiene productos de forma asíncrona y guarda el resultado en estado.
-- ItemList: recibe los productos por props y los recorre con map para renderizar el listado.
-- Item: muestra la información resumida de cada producto en una card.
-- ItemDetailContainer: obtiene un producto por su identificador y administra los estados de carga y error.
-- ItemDetail: presenta la información completa del producto seleccionado.
-- ItemCount: controla la cantidad elegida sin superar el stock disponible ni disminuir por debajo de cero.
-- Cart: presenta los productos seleccionados, subtotales, total de compra y acciones para quitar o vaciar el carrito.
-- Layout: mantiene visibles la navegacion y el pie de pagina en todas las rutas.
-- NotFound: informa cuando la direccion solicitada no existe.
+## Configuración local
 
-## Navegacion
+1. Ejecutá `npm install`.
+2. Copiá `.env.example` a `.env` y completá las seis variables del proyecto Firebase. El archivo `.env` está ignorado por Git. Los valores de configuración del cliente identifican el proyecto; las reglas de Firestore y Authentication controlan el acceso.
+3. En la consola de Firebase, habilitá **Authentication → Email/Password** y creá la base de datos **Cloud Firestore**.
+4. Cargá documentos en `items` con los campos indicados abajo. Configurá las reglas de Firestore para permitir la lectura del catálogo y la creación de órdenes por usuarios autenticados, de acuerdo con la política de tu proyecto.
+5. Ejecutá `npm run dev` y abrí la URL indicada por Vite.
 
-La aplicacion incorpora React Router para navegar sin recargar la pagina. Las rutas disponibles son:
+Cada documento de `items` usa su ID de Firestore para la ruta `/item/:itemId` y contiene:
 
-- `/`: catalogo completo.
-- `/category/:categoryId`: productos filtrados por categoria.
-- `/item/:itemId`: detalle dinamico de cada producto.
-- `/cart`: carrito de compras con resumen y total.
-- `/checkout`: ruta protegida para continuar con la compra.
-- `/acceso-restringido`: redireccion para usuarios sin acceso al checkout.
-- `*`: pagina 404 para direcciones inexistentes.
+| Campo | Tipo | Uso |
+| --- | --- | --- |
+| `Nombre` | string | Nombre del producto o servicio |
+| `Precio` | number | Precio en pesos argentinos |
+| `Categoria` | string | Etiqueta visible |
+| `IdCategoria` | string | Filtro de categoría: `arreglos`, `transformaciones`, `prendas-recicladas` o `accesorios-textiles` |
+| `Imagen` | string | URL o ruta pública de la imagen |
+| `Stock` | number | Cantidad disponible |
+| `Descripcion` | string | Resumen |
+| `Detalle` | string | Descripción ampliada |
+| `TiempoEstimado` | string | Plazo mostrado en el detalle |
 
-Las cards del catalogo enlazan al detalle de cada producto y el menu permite recorrer las categorias disponibles. Desde el detalle se selecciona una cantidad de acuerdo con el stock y se suma el producto al carrito. El acceso al checkout se realiza desde el resumen de compra y se encuentra protegido de forma temporal hasta incorporar la autenticacion en una etapa posterior. Si se intenta acceder sin permiso, la aplicacion redirige a `/acceso-restringido` y conserva la ruta solicitada para informar el motivo del acceso restringido.
+Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total` y `createdAt` generado por el servidor. El checkout muestra el ID devuelto por Firestore únicamente después de una escritura exitosa.
 
-## Validaciones y pruebas
+## Rutas
 
-Los componentes que reciben props validan los datos esperados mediante PropTypes. Se incorporaron pruebas automatizadas para `getProductById` y para la lógica del carrito, que verifican la búsqueda dinámica de productos, la respuesta ante un identificador inexistente, el límite de stock y el cálculo de totales.
+- `/`: catálogo completo.
+- `/category/:categoryId`: productos de una categoría.
+- `/item/:itemId`: detalle de un producto.
+- `/cart`: carrito.
+- `/login` y `/registro`: acceso y creación de cuenta.
+- `/checkout`: compra, accesible con sesión iniciada.
+- `*`: página 404.
 
-## Simulación de datos
+Si una persona sin sesión intenta abrir `/checkout`, se la envía a `/login` y, al ingresar o registrarse, vuelve al checkout.
 
-La carga de productos se simula en `src/mock/asyncMock.js` con una función `getProducts` que devuelve una Promise. Esa Promise usa `setTimeout` para resolver después de 2 segundos y entregar un array de productos con id, name, price, category, img, stock y description.
-
-La función `getProductById`, ubicada en `src/services/getProductById.js`, recibe un identificador, busca el producto correspondiente en el mismo catálogo y devuelve una Promise. `ItemDetailContainer` obtiene el identificador dinámico mediante `useParams` desde la ruta `/item/:itemId`, carga el producto correspondiente y delega su presentación a `ItemDetail`.
-
-## Tecnologías
-
-- React
-- React Router DOM
-- JavaScript
-- Vite
-- HTML
-- CSS
-- Young Serif y Alegreya Sans
-- Lucide React
-
-## Estructura
-
-El proyecto separa la interfaz en componentes reutilizables para facilitar el mantenimiento y permitir seguir ampliando funcionalidades sin concentrar toda la lógica en un único archivo.
-
-## Ejecutar localmente
-
-Instalar dependencias:
-
-```bash
-npm install
-```
-
-Iniciar el entorno de desarrollo:
-
-```bash
-npm run dev
-```
-
-Luego abrir en el navegador la dirección local indicada por Vite.
-
-Para ejecutar las pruebas unitarias:
+## Pruebas y compilación
 
 ```bash
 npm test
-```
-
-Para las pruebas end-to-end (requiere `npx playwright install` la primera vez):
-
-```bash
+npm run build
 npm run test:e2e
 ```
 
-## Objetivo
+Las pruebas end to end usan la configuración Firebase local y requieren datos en `items`. El recorrido de compra real también depende de las reglas y servicios habilitados en Firebase.
 
-Continuar desarrollando una experiencia simple y clara para presentar productos y servicios del atelier, incorporando nuevas secciones y funcionalidades a medida que avance el proyecto.
+## Imágenes
 
-## Créditos de imágenes
+Las fotografías del catálogo están en `public/products` y proceden de Wikimedia Commons:
 
-Las fotografías utilizadas pertenecen a Wikimedia Commons:
-
-- [Remiendo visible](https://commons.wikimedia.org/wiki/File:Visibly_mended_pair_of_jeans.jpg): Lisenka92, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Prenda transformada](https://commons.wikimedia.org/wiki/File:%D7%9E%D7%99%D7%97%D7%96%D7%95%D7%A8_%D7%9E%D7%A9%D7%91%D7%99%D7%97_%D7%9C%D7%91%D7%92%D7%93%D7%99%D7%9D_%D7%99%D7%A9%D7%A0%D7%99%D7%9D_%D7%95%D7%9B%D7%9E%D7%94_%D7%A9%D7%90%D7%A8%D7%99%D7%95%D7%AA_%D7%91%D7%93_%D7%99%D7%A6%D7%A8%D7%95_%D7%A9%D7%9E%D7%9C%D7%94_%D7%97%D7%93%D7%A9%D7%94.jpg): Mirjammarion, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Bolso textil](https://commons.wikimedia.org/wiki/File:016Aa._Cosmetic_bag.jpg): GAlexandrova, licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [Prenda patchwork](https://commons.wikimedia.org/wiki/File:Cotton_patchwork_suit_by_Alexander_McQueen,_2004_02.jpg): Rhode Island School of Design Museum of Art, licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
-- [Trabajo de sastrería](https://commons.wikimedia.org/wiki/File:Tailor_sewing_machine.jpg): Sajid213, licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+- [Remiendo visible](https://commons.wikimedia.org/wiki/File:Visibly_mended_pair_of_jeans.jpg): Lisenka92, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Prenda transformada](https://commons.wikimedia.org/wiki/File:%D7%9E%D7%99%D7%97%D7%96%D7%95%D7%A8_%D7%9E%D7%A9%D7%91%D7%99%D7%97_%D7%9C%D7%91%D7%92%D7%93%D7%99%D7%9D_%D7%99%D7%A9%D7%A0%D7%99%D7%9D_%D7%95%D7%9B%D7%9E%D7%94_%D7%A9%D7%90%D7%A8%D7%99%D7%95%D7%AA_%D7%91%D7%93_%D7%99%D7%A6%D7%A8%D7%95_%D7%A9%D7%9E%D7%9C%D7%94_%D7%97%D7%93%D7%A9%D7%94.jpg): Mirjammarion, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Bolso textil](https://commons.wikimedia.org/wiki/File:016Aa._Cosmetic_bag.jpg): GAlexandrova, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- [Prenda patchwork](https://commons.wikimedia.org/wiki/File:Cotton_patchwork_suit_by_Alexander_McQueen,_2004_02.jpg): Rhode Island School of Design Museum of Art, [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+- [Trabajo de sastrería](https://commons.wikimedia.org/wiki/File:Tailor_sewing_machine.jpg): Sajid213, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).

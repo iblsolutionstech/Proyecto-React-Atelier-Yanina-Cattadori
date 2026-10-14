@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getProductById } from '../services/getProductById.js'
-import EmptyFrame from './EmptyFrame.jsx'
+import { getItemById } from '../services/itemsService.js'
 import ItemDetail from './ItemDetail.jsx'
 
 function ItemDetailContainer() {
@@ -13,26 +12,31 @@ function ItemDetailContainer() {
   useEffect(() => {
     let isActive = true
 
-    setProduct(null)
-    setError('')
-    setIsLoading(true)
+    async function loadProduct() {
+      setProduct(null)
+      setError('')
+      setIsLoading(true)
 
-    getProductById(itemId)
-      .then((selectedProduct) => {
+      try {
+        const selectedProduct = await getItemById(itemId)
+
         if (isActive) {
           setProduct(selectedProduct)
         }
-      })
-      .catch((requestError) => {
+      } catch (requestError) {
         if (isActive) {
-          setError(requestError.message)
+          setError(requestError.message === 'No se encontró el producto solicitado.'
+            ? requestError.message
+            : 'No se pudo cargar el producto. Revisá tu conexión e intentá nuevamente.')
         }
-      })
-      .finally(() => {
+      } finally {
         if (isActive) {
           setIsLoading(false)
         }
-      })
+      }
+    }
+
+    loadProduct()
 
     return () => {
       isActive = false
@@ -40,27 +44,24 @@ function ItemDetailContainer() {
   }, [itemId])
 
   if (isLoading) {
-    return (
-      <section className="detail-status">
-        <EmptyFrame />
-        <p role="status">Cargando detalle del producto...</p>
-      </section>
-    )
+    return <p className="detail-status">Cargando detalle del producto...</p>
   }
 
   if (error) {
     return (
       <section className="detail-status detail-status-error">
-        <EmptyFrame variant="fallen" />
-        <p role="alert">{error}</p>
-        <Link className="secondary-action" to="/">Volver al catalogo</Link>
+        <p>{error}</p>
+        <Link to="/">Volver al catalogo</Link>
       </section>
     )
   }
 
   return (
-    <section className="product-detail-section" aria-labelledby="product-detail-title">
-      <div className="product-detail-heading visually-hidden">
+    <section
+      className="product-detail-section"
+      aria-labelledby="product-detail-title"
+    >
+      <div className="product-detail-heading">
         <h2 id="product-detail-title">Detalle del producto</h2>
       </div>
       <ItemDetail product={product} />

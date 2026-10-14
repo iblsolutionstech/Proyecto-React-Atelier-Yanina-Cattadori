@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
-import { currencyFormatter } from '../utils/productKind.js'
-import EmptyFrame from './EmptyFrame.jsx'
+
+const currencyFormatter = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  maximumFractionDigits: 0,
+})
 
 function Cart() {
   const { cart, clear, removeItem, totalItems, totalPrice } = useCart()
@@ -10,7 +14,6 @@ function Cart() {
     return (
       <main className="cart-page">
         <section className="cart-empty">
-          <EmptyFrame />
           <h1>Tu carrito esta esperando una pieza con historia.</h1>
           <p>Explora el catalogo para sumar arreglos, prendas recuperadas y accesorios textiles.</p>
           <Link className="primary-action cart-empty-action" to="/">Ver catalogo</Link>
@@ -33,12 +36,10 @@ function Cart() {
           <div className="cart-items" aria-label="Productos seleccionados">
             {cart.map((item) => (
               <article className="cart-item" key={item.id}>
-                <span className="cart-thumb">
-                  <img src={item.img} alt={item.name} />
-                </span>
+                <img src={item.img} alt={item.name} />
                 <div className="cart-item-info">
+                  <span className="product-category">{item.category}</span>
                   <h2>{item.name}</h2>
-                  <p className="cart-item-category">{item.category}</p>
                   <p>Cantidad: {item.quantity}</p>
                   <button type="button" className="cart-remove" onClick={() => removeItem(item.id)}>
                     Quitar del carrito

@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { products } from '../mock/asyncMock.js'
 import { addCartItem, getCartTotalItems, getCartTotalPrice, removeCartItem } from './cartUtils.js'
 
 describe('cartUtils', () => {
-  const product = products[0]
+  const product = { id: 'remiendo-1', name: 'Remiendo visible denim', price: 8500, stock: 8 }
 
   it('suma un producto al carrito sin modificar el producto original', () => {
     const cart = addCartItem([], product, 2)

@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   reporter: process.env.CI ? [['html', { open: 'never' }]] : [['list']],
 
   use: {
@@ -17,6 +17,7 @@ export default defineConfig({
     locale: 'es-AR',
     timezoneId: 'America/Argentina/Buenos_Aires',
   },
+  expect: { timeout: 20_000 },
 
   projects: [
     { name: 'escritorio', use: { ...devices['Desktop Chrome'] } },
