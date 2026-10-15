@@ -289,6 +289,9 @@ h1 { color: #171514; }
 .auth-form button[type='submit']:hover:not(:disabled), .checkout-form button[type='submit']:hover:not(:disabled) { background: #a75f68; }
 .auth-form button[type='submit']:disabled, .checkout-form button[type='submit']:disabled { opacity: .62; cursor: wait; }
 .auth-error { margin: 0 0 8px; color: #8d3444; font-size: .9rem; font-weight: 700; }
+.auth-success { margin: 0 0 8px; color: #245a43; font-size: .9rem; font-weight: 700; }
+.auth-recovery { display: inline-block; margin-top: 20px; border: 0; padding: 0; background: transparent; color: #802e40; font: inherit; font-size: .89rem; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.auth-recovery:focus-visible { outline: 2px solid #a75f68; outline-offset: 4px; }
 .auth-switch { margin-top: 25px; font-size: .89rem; }
 .auth-switch a { color: #802e40; font-weight: 700; text-underline-offset: 4px; }
 .auth-status { flex: 1; padding: 100px 36px; text-align: center; }

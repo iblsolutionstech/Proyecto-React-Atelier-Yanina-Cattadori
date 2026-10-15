@@ -60,6 +60,19 @@ test('el checkout muestra el acceso y conserva el destino del registro', async (
   await expect(page.getByRole('heading', { name: 'Crear una cuenta' })).toBeVisible()
 })
 
+test('el acceso permite recuperar la contraseña', async ({ page }) => {
+  await page.goto('/login')
+  await page.getByRole('button', { name: 'Olvidé mi contraseña' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Recuperar contraseña' })).toBeVisible()
+  await expect(page.getByLabel('Correo electrónico')).toBeVisible()
+  await expect(page.locator('input[type="password"]')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Enviar enlace' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Volver a ingresar' }).click()
+  await expect(page.getByRole('heading', { name: 'Ingresar a tu cuenta' })).toBeVisible()
+})
+
 test('una ruta inexistente muestra el 404', async ({ page }) => {
   await page.goto('/ruta-que-no-existe')
 

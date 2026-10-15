@@ -11,7 +11,7 @@ React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore 
 - Catálogo y categorías obtenidos de la colección `items` de Firestore.
 - Detalle de producto consultado por el identificador del documento.
 - Carrito con control de cantidad según el stock mostrado y cálculo de totales.
-- Registro e ingreso con correo y contraseña mediante Firebase Authentication.
+- Registro, ingreso y recuperación de contraseña por correo mediante Firebase Authentication.
 - Checkout con acceso según la sesión. Una compra exitosa crea un documento en `orders`, muestra el número de pedido y el código de confirmación, y vacía el carrito.
 - Estados de carga, error, catálogo vacío y ruta inexistente.
 
