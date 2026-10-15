@@ -12,7 +12,7 @@ React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore 
 - Detalle de producto consultado por el identificador del documento.
 - Carrito con control de cantidad según el stock mostrado y cálculo de totales.
 - Registro e ingreso con correo y contraseña mediante Firebase Authentication.
-- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra su número de pedido y vacía el carrito.
+- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra el número de pedido y el código de confirmación, y vacía el carrito.
 - Estados de carga, error, catálogo vacío y ruta inexistente.
 
 ## Configuración local
@@ -53,7 +53,7 @@ Ejemplo de documento en `items` (el ID se asigna al documento):
 }
 ```
 
-Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total`, `orderNumber` y `createdAt` generado por el servidor. El checkout muestra el número de pedido únicamente después de una escritura exitosa. El ID del documento sigue siendo la referencia interna de Firestore.
+Las órdenes se guardan en `orders` con `userId`, `userEmail`, `buyer` (nombre, teléfono, dirección y ciudad), `items` (ID, nombre, precio y cantidad), `total`, `orderNumber` y `createdAt` generado por el servidor. El checkout muestra el número de pedido y el ID del documento de Firestore como código de confirmación únicamente después de una escritura exitosa.
 
 Ejemplo de estructura de una orden:
 
@@ -77,8 +77,6 @@ Ejemplo de estructura de una orden:
 ```
 
 La numeración visible se presenta con seis dígitos (`000001`, `000002`...). Cada compra actualiza `metadata/orderSequence` y crea su orden en una transacción, para evitar números repetidos cuando coinciden dos compras. El documento de secuencia guarda `lastNumber` y `lastOrderId`.
-
-Si ya hay órdenes anteriores, asignales `orderNumber` en la consola de Firestore y creá `metadata/orderSequence` con `lastNumber` igual al mayor número asignado y `lastOrderId` igual al ID de esa última orden. Hacé esto antes de usar el checkout actualizado.
 
 ## Rutas
 
