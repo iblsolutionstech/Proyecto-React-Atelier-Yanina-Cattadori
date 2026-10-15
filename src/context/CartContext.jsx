@@ -21,7 +21,6 @@ function CartProvider({ children }) {
     setCart([])
   }
 
-  const isInCart = (itemId) => cart.some((item) => item.id === itemId)
   const totalItems = getCartTotalItems(cart)
   const totalPrice = getCartTotalPrice(cart)
 
@@ -30,7 +29,6 @@ function CartProvider({ children }) {
     addItem,
     removeItem,
     clear,
-    isInCart,
     totalItems,
     totalPrice,
   }), [cart, totalItems, totalPrice])
@@ -52,4 +50,4 @@ function useCart() {
   return context
 }
 
-export { CartContext, CartProvider, useCart }
+export { CartProvider, useCart }

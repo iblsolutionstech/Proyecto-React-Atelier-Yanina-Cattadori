@@ -12,7 +12,7 @@ React, React Router, JavaScript, Vite, Firebase Authentication, Cloud Firestore 
 - Detalle de producto consultado por el identificador del documento.
 - Carrito con control de cantidad según el stock mostrado y cálculo de totales.
 - Registro e ingreso con correo y contraseña mediante Firebase Authentication.
-- Checkout protegido. Una compra exitosa crea un documento en `orders`, muestra el número de pedido y el código de confirmación, y vacía el carrito.
+- Checkout con acceso según la sesión. Una compra exitosa crea un documento en `orders`, muestra el número de pedido y el código de confirmación, y vacía el carrito.
 - Estados de carga, error, catálogo vacío y ruta inexistente.
 
 ## Configuración local
@@ -85,10 +85,10 @@ La numeración visible se presenta con seis dígitos (`000001`, `000002`...). Ca
 - `/item/:itemId`: detalle de un producto.
 - `/cart`: carrito.
 - `/login` y `/registro`: acceso y creación de cuenta.
-- `/checkout`: compra, accesible con sesión iniciada.
+- `/checkout`: acceso a la cuenta o formulario de compra, según la sesión.
 - `*`: página 404.
 
-Si una persona sin sesión intenta abrir `/checkout`, se la envía a `/login` y, al ingresar o registrarse, vuelve al checkout.
+Si una persona sin sesión abre `/checkout` con productos en el carrito, puede ingresar o registrarse desde esa vista. Después vuelve al formulario de compra.
 
 ## Comandos de desarrollo
 

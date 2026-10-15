@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { createOrder } from '../services/ordersService.js'
@@ -19,8 +19,9 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
 })
 
 function Checkout() {
-  const { user } = useAuth()
+  const { user, isLoading } = useAuth()
   const { cart, totalItems, totalPrice, clear } = useCart()
+  const location = useLocation()
   const [buyer, setBuyer] = useState(initialBuyer)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -95,8 +96,30 @@ function Checkout() {
     )
   }
 
+  if (isLoading) {
+    return <p className="auth-status" role="status">Verificando sesión...</p>
+  }
+
   if (cart.length === 0) {
     return <Navigate to="/cart" replace />
+  }
+
+  if (!user) {
+    return (
+      <main className="checkout-page">
+        <section className="checkout-confirmation">
+          <h1>Ingresá para continuar con tu compra</h1>
+          <p>Tu carrito está listo. Iniciá sesión o creá una cuenta para completar el pedido.</p>
+          <Link className="primary-action" to="/login" state={{ from: location }}>
+            Ingresar
+          </Link>
+          <p className="auth-switch">
+            ¿Todavía no tenés cuenta?{' '}
+            <Link to="/registro" state={{ from: location }}>Registrarme</Link>
+          </p>
+        </section>
+      </main>
+    )
   }
 
   return (

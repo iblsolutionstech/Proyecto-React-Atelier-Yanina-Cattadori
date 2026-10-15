@@ -34,9 +34,25 @@ test('del catálogo se llega al detalle y al carrito', async ({ page }) => {
   await expect(page.getByRole('heading', { name })).toBeVisible()
 })
 
-test('el checkout solicita ingreso y el registro conserva su destino', async ({ page }) => {
+test('el checkout vacío vuelve al carrito', async ({ page }) => {
   await page.goto('/checkout')
 
+  await expect(page).toHaveURL(/\/cart$/)
+})
+
+test('el checkout muestra el acceso y conserva el destino del registro', async ({ page }) => {
+  await page.goto('/')
+  const firstCard = page.locator('.product-card').first()
+  await expect(firstCard).toBeVisible()
+  await firstCard.locator('.product-detail-link').click()
+  await page.getByRole('button', { name: 'Sumar una unidad' }).click()
+  await page.getByRole('button', { name: 'Agregar al carrito' }).click()
+  await page.locator('.cart-widget').click()
+  await page.locator('.cart-checkout').click()
+
+  await expect(page).toHaveURL(/\/checkout$/)
+  await expect(page.getByRole('heading', { name: 'Ingresá para continuar con tu compra' })).toBeVisible()
+  await page.locator('.checkout-confirmation .primary-action').click()
   await expect(page).toHaveURL(/\/login$/)
   await expect(page.getByRole('heading', { name: 'Ingresar a tu cuenta' })).toBeVisible()
   await page.getByRole('link', { name: 'Registrarme' }).click()
